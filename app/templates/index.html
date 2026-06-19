@@ -21,7 +21,7 @@
     {% for job in experiences %}
         <div class="experience-card">
             <h3>{{ job.role }} — {{ job.company }}</h3>
-            <p class="dates">{{ job.dates }}</p>
+            <p class="dates">{{ job.dates }} · {{ job.location }}</p>
             <p>{{ job.description }}</p>
         </div>
     {% endfor %}
