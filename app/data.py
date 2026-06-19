@@ -52,5 +52,11 @@ HOBBIES = [
 ]
 
 LOCATIONS = [
-    # {"name": "Tokyo, Japan", "lat": 35.6762, "lng": 139.6503},
+    {"name": "Hong Kong", "lat": 22.3193, "lng": 114.1694},
+    {"name": "Los Cabos, Mexico", "lat": 22.8905, "lng": -109.9167},
+    {"name": "Yellowstone National Park", "lat": 44.4280, "lng": -110.5885},
+    {"name": "Durham, North Carolina", "lat": 35.9940, "lng": -78.8986},
+    {"name": "St. Augustine, Florida", "lat": 29.9012, "lng": -81.3124},
+    {"name": "Yosemite National Park", "lat": 37.8651, "lng": -119.5383},
+    {"name": "Laguna Seca, California", "lat": 36.5844, "lng": -121.7536},
 ]
