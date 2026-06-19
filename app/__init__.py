@@ -16,3 +16,7 @@ def index():
         experiences=EXPERIENCES,
         education=EDUCATION,
     )
+    
+@app.route('/hobbies')
+def hobbies():
+    return render_template('hobbies.html', title="Hobbies", hobbies=HOBBIES)
