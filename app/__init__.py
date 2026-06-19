@@ -6,6 +6,15 @@ from .data import EXPERIENCES, EDUCATION, HOBBIES, LOCATIONS
 load_dotenv()
 app = Flask(__name__)
 
+NAV_PAGES = [
+    {"name": "Home", "endpoint": "index"},
+    {"name": "Hobbies", "endpoint": "hobbies"},
+]
+
+
+@app.context_processor
+def inject_nav_pages():
+    return dict(nav_pages=NAV_PAGES)
 
 @app.route('/')
 def index():
