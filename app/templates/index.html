@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block extra_head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+{% endblock %}
+
 {% block content %}
 <div class="profile">
     <div id="profile-picture" class="profile-picture">
@@ -37,4 +41,25 @@
         </div>
     {% endfor %}
 </section>
+
+<section class="travel-map">
+    <h2>Places I've Visited</h2>
+    <div id="map"></div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    const locations = {{ locations | tojson }};
+    const map = L.map('map').setView([20, 0], 2);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    locations.forEach(loc => {
+        L.marker([loc.lat, loc.lng]).addTo(map).bindPopup(loc.name);
+    });
+</script>
 {% endblock %}
