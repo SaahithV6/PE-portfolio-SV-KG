@@ -8,7 +8,7 @@
 <section class="hobbies-list">
     {% for hobby in hobbies %}
         <div class="hobby-card">
-            <img src="{{ url_for('static', filename='img/hobbies/' + hobby.image) }}" alt="{{ hobby.name }}">
+            <img src="{{ url_for('static', filename='img/' + hobby.image) }}" alt="{{ hobby.name }}">
             <h3>{{ hobby.name }}</h3>
             <p>{{ hobby.description }}</p>
         </div>
