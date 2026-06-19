@@ -27,7 +27,9 @@
                 </div>
             </a>
             <nav>
-                <!-- nav links get added dynamically in #10 -->
+                {% for page in nav_pages %}
+                    <a href="{{ url_for(page.endpoint) }}">{{ page.name }}</a>
+                {% endfor %}
             </nav>
         </div>
     </header>
