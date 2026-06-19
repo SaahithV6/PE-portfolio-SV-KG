@@ -39,7 +39,16 @@ EDUCATION = [
 ]
 
 HOBBIES = [
-    # {"name": "Climbing", "image": "climbing.jpg", "description": "..."},
+    {
+        "name": "Motorsports Photography",
+        "image": "20260503_165039.jpg",
+        "description": "Shooting motorsports events, here's an image of the Whelen Cadillac at 2026's IMSA race at Laguna Seca",
+    },
+    {
+        "name": "Hiking",
+        "image": "20230604_064334.webp",
+        "description": "Getting out on trails whenever I can, mostly around the Santa Cruz area.",
+    },
 ]
 
 LOCATIONS = [
