@@ -24,6 +24,7 @@ def index():
         url=os.getenv("URL"),
         experiences=EXPERIENCES,
         education=EDUCATION,
+        locations=LOCATIONS,
     )
     
 @app.route('/hobbies')
