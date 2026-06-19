@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
     <link rel='icon' href="{{ url_for('static', filename='img/favicon.ico') }}" type='image/x-icon' />
     <title>{{ title }}</title>
+    {% block extra_head %}{% endblock %}
 </head>
 
 <body>
@@ -35,5 +36,7 @@
     </header>
 
     {% block content %}{% endblock %}
+    {% block extra_scripts %}{% endblock %}
+
 </body>
 </html>
