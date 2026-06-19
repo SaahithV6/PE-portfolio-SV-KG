@@ -30,7 +30,12 @@ EXPERIENCES = [
 ]
 
 EDUCATION = [
-    # {"school": "Your University", "degree": "B.S. Computer Science", "dates": "2023 - 2027"},
+    {
+        "school": "University of California, Santa Cruz",
+        "degree": "B.S. Computer Science",
+        "location": "Santa Cruz, CA",
+        "dates": "2025 - 2029",
+    },
 ]
 
 HOBBIES = [
