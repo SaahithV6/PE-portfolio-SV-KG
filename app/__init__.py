@@ -59,6 +59,14 @@ def index():
 def hobbies():
     return render_template('hobbies.html', title="Hobbies", hobbies=HOBBIES)
 
+# Frontend Timeline Page Route
+@app.route('/timeline')
+def timeline():
+    # Fetch posts to render them initially on the server side if needed, 
+    # or you can fetch them entirely via JavaScript (the hint mentions fetch API).
+    posts = [model_to_dict(p) for p in TimelinePost.select().order_by(TimelinePost.created_at.desc())]
+    return render_template('timeline.html', title="Timeline", timeline_posts=posts)
+
 # --- API Endpoints ---
 
 @app.route('/api/timeline_post', methods=['POST'])

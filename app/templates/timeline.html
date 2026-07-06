@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <style>
+        .timeline-container { max-width: 700px; margin: 40px auto; padding: 0 20px; font-family: sans-serif; }
+        .form-group { margin-bottom: 15px; display: flex; flex-direction: column; }
+        .form-group label { margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group textarea { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .submit-btn { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        .submit-btn:hover { background: #0056b3; }
+        .post-card { border: 1px solid #e1e4e6; padding: 15px; margin-top: 20px; border-radius: 6px; background: #f8f9fa; }
+        .post-header { display: flex; justify-content: space-between; font-size: 12px; color: #6c757d; margin-bottom: 8px; }
+        .post-name { font-weight: bold; color: #333; font-size: 14px; }
+        .post-content { font-size: 15px; line-height: 1.4; color: #222; }
+    </style>
+</head>
+<body>
+
+    <!-- Simple Dynamic Navigation matching your project -->
+    <nav style="padding: 20px; background: #f1f1f1; display: flex; gap: 15px;">
+        {% for page in nav_pages %}
+            <a href="{{ url_for(page.endpoint) }}" style="text-decoration: none; color: #007bff; font-weight: bold;">{{ page.name }}</a>
+        {% endfor %}
+    </nav>
+
+    <div class="timeline-container">
+        <h2>Submit a New Timeline Post</h2>
+        
+        <!-- Form -->
+        <form id="timeline-form">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required placeholder="Your Name">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+            </div>
+            <div class="form-group">
+                <label for="content">Content</label>
+                <textarea id="content" name="content" rows="4" required placeholder="What's on your mind?"></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Post to Timeline</button>
+        </form>
+
+        <hr style="margin: 40px 0; border: 0; border-top: 1px solid #eee;">
+
+        <h2>Timeline Stream</h2>
+        <div id="timeline-posts">
+            <!-- Render existing posts pulled from initial route context -->
+            {% for post in timeline_posts %}
+                <div class="post-card">
+                    <div class="post-header">
+                        <span class="post-name">{{ post.name }} ({{ post.email }})</span>
+                        <span>{{ post.created_at }}</span>
+                    </div>
+                    <div class="post-content">{{ post.content }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- JavaScript Handling Asynchronous Submissions via fetch -->
+    <script>
+        document.getElementById('timeline-form').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent traditional page reload
+
+            const formData = new FormData(this);
+
+            fetch('/api/timeline_post', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Instantly inject the new post card right to the top of the feed smoothly
+                const postsContainer = document.getElementById('timeline-posts');
+                const postHTML = `
+                    <div class="post-card">
+                        <div class="post-header">
+                            <span class="post-name">${data.name} (${data.email})</span>
+                            <span>${data.created_at}</span>
+                        </div>
+                        <div class="post-content">${data.content}</div>
+                    </div>
+                `;
+                postsContainer.insertAdjacentHTML('afterbegin', postHTML);
+                
+                // Clear out form inputs
+                document.getElementById('timeline-form').reset();
+            })
+            .catch(error => console.error('Error adding post:', error));
+        });
+    </script>
+</body>
+</html>
