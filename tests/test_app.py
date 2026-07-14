@@ -89,7 +89,7 @@ class AppTestCase(unittest.TestCase):
         html = response.get_data(as_text=True)
         assert "Invalid content" in html
 
-        # POST request with malformed email
+        # POST request with malformed email (no "@")
         response = self.client.post(
             "/api/timeline_post",
             data={"name": "John Doe", "email": "not-an-email", "content": "Hello world, I'm John!"},
@@ -97,6 +97,30 @@ class AppTestCase(unittest.TestCase):
         assert response.status_code == 400
         html = response.get_data(as_text=True)
         assert "Invalid email" in html
+
+        # POST request with multiple "@" characters
+        response = self.client.post(
+            "/api/timeline_post",
+            data={"name": "John Doe", "email": "john@@example.com", "content": "Hello!"},
+        )
+        assert response.status_code == 400
+        assert "Invalid email" in response.get_data(as_text=True)
+
+        # POST request with an empty local part
+        response = self.client.post(
+            "/api/timeline_post",
+            data={"name": "John Doe", "email": "@example.com", "content": "Hello!"},
+        )
+        assert response.status_code == 400
+        assert "Invalid email" in response.get_data(as_text=True)
+
+        # POST request with an empty domain label (trailing dot)
+        response = self.client.post(
+            "/api/timeline_post",
+            data={"name": "John Doe", "email": "john@example.", "content": "Hello!"},
+        )
+        assert response.status_code == 400
+        assert "Invalid email" in response.get_data(as_text=True)
 
 
 if __name__ == "__main__":

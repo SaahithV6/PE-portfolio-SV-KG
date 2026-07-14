@@ -73,6 +73,16 @@ def timeline():
 
 # --- API Endpoints ---
 
+def is_valid_email(email):
+    # Require exactly one local part and a non-empty, dot-separated domain
+    # (rejects multiple "@", empty local part, and empty/trailing labels).
+    if email.count("@") != 1:
+        return False
+    local, domain = email.split("@")
+    labels = domain.split(".")
+    return bool(local) and len(labels) >= 2 and all(labels)
+
+
 @app.route('/api/timeline_post', methods=['POST'])
 def post_time_line_post():
     name = request.form.get('name', '').strip()
@@ -84,7 +94,7 @@ def post_time_line_post():
         return "Invalid name", 400
     if not content:
         return "Invalid content", 400
-    if "@" not in email or "." not in email.split("@")[-1]:
+    if not is_valid_email(email):
         return "Invalid email", 400
 
     timeline_post = TimelinePost.create(name=name, email=email, content=content)
