@@ -13,7 +13,7 @@ services:
 
   mysql:
     container_name: mysql
-    image: mariadb
+    image: mariadb:10.11
     restart: always
     env_file:
       - .env
