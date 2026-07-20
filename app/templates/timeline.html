@@ -75,7 +75,18 @@
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
+            .then(async response => {
+                if (response.status === 429 || response.status === 503) {
+                    alert('Rate limit reached. Please wait 1 minute before posting again.');
+                    throw new Error('rate limited');
+                }
+                if (!response.ok) {
+                    const text = await response.text();
+                    alert(text || 'Error adding post');
+                    throw new Error('post failed');
+                }
+                return response.json();
+            })
             .then(data => {
                 // Instantly inject the new post card right to the top of the feed smoothly
                 const postsContainer = document.getElementById('timeline-posts');
