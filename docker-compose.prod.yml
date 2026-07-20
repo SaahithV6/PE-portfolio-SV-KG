@@ -8,8 +8,7 @@ services:
     ports:
       - "5000:5000"
     depends_on:
-      mysql:
-        condition: service_healthy
+      - mysql
 
   mysql:
     container_name: mysql
@@ -19,12 +18,6 @@ services:
       - .env
     volumes:
       - mydatabase:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
-      interval: 5s
-      timeout: 5s
-      retries: 30
-      start_period: 20s
 
 volumes:
   mydatabase:
