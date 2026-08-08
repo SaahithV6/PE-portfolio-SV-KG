@@ -88,19 +88,32 @@
                 return response.json();
             })
             .then(data => {
-                // Instantly inject the new post card right to the top of the feed smoothly
+                // Instantly inject the new post card right to the top of the feed smoothly.
+                // Build the node with textContent so post fields are never parsed as HTML.
                 const postsContainer = document.getElementById('timeline-posts');
-                const postHTML = `
-                    <div class="post-card">
-                        <div class="post-header">
-                            <span class="post-name">${data.name} (${data.email})</span>
-                            <span>${data.created_at}</span>
-                        </div>
-                        <div class="post-content">${data.content}</div>
-                    </div>
-                `;
-                postsContainer.insertAdjacentHTML('afterbegin', postHTML);
-                
+
+                const card = document.createElement('div');
+                card.className = 'post-card';
+
+                const header = document.createElement('div');
+                header.className = 'post-header';
+
+                const name = document.createElement('span');
+                name.className = 'post-name';
+                name.textContent = `${data.name} (${data.email})`;
+
+                const created = document.createElement('span');
+                created.textContent = data.created_at;
+
+                header.append(name, created);
+
+                const content = document.createElement('div');
+                content.className = 'post-content';
+                content.textContent = data.content;
+
+                card.append(header, content);
+                postsContainer.prepend(card);
+
                 // Clear out form inputs
                 document.getElementById('timeline-form').reset();
             })
