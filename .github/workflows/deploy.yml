@@ -28,5 +28,5 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.DROPLET_SSH_KEY }}
           SSH_IP: ${{ secrets.DROPLET_HOST }}
 
-      - name: Print project root directory
-        run: ssh my-vps 'cd ${{ secrets.PROJECT_ROOT }} && pwd'
+      - name: Deploy site
+        run: ssh my-vps '~/redeploy-site.sh'
