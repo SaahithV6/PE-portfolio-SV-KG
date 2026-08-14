@@ -58,7 +58,7 @@ def index():
         education=EDUCATION,
         locations=LOCATIONS,
     )
-    
+
 @app.route('/hobbies')
 def hobbies():
     return render_template('hobbies.html', title="Hobbies", hobbies=HOBBIES)
@@ -66,10 +66,17 @@ def hobbies():
 # Frontend Timeline Page Route
 @app.route('/timeline')
 def timeline():
-    # Fetch posts to render them initially on the server side if needed, 
+    # Fetch posts to render them initially on the server side if needed,
     # or you can fetch them entirely via JavaScript (the hint mentions fetch API).
     posts = [model_to_dict(p) for p in TimelinePost.select().order_by(TimelinePost.created_at.desc())]
     return render_template('timeline.html', title="Timeline", timeline_posts=posts)
+
+# Health check endpoint: exercises the full request path (nginx -> myportfolio -> mysql)
+# so load testing it shows resource usage across all three containers.
+@app.route('/health')
+def health():
+    post_count = TimelinePost.select().count()
+    return {"status": "ok", "timeline_posts": post_count}
 
 # --- API Endpoints ---
 
